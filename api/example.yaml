@@ -1,0 +1,87 @@
+openapi: 3.0.1
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /exampleget:
+    get:
+      tags:
+        - Test
+      description: Пример апи
+      operationId: getExample
+      parameters:
+        - name: item
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: "20"
+      responses:
+        "200":
+          description: Успешная выполнен пример запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleResponse'
+        "400":
+          description: Wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonFault'
+        "500":
+          description: Неизвестная ошибка
+  /examplepost:
+    post:
+      tags:
+        - Test
+      description: Пример апи
+      operationId: postExample
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExampleRequest'
+      responses:
+        "200":
+          description: Успешная выполнен пример запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleResponse'
+        "400":
+          description: Wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonFault'
+        "500":
+          description: Неизвестная ошибка
+components:
+  schemas:
+    ExampleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        item:
+          type: string
+      description: модель ответа примера запроса
+    ExampleRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        item:
+          type: string
+      description: модель ответа примера запроса
+    CommonFault:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      description: модель неудачной попытки запроса
