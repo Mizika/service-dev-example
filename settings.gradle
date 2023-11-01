@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    plugins {
+        id 'org.jetbrains.kotlin' version("${kotlinGradlePluginVersion}")
+        id 'org.springframework.boot' version("${springBootVersion}")
+        id 'io.freefair.gradle' version("${lombokPluginVersion}")
+        id 'io.spring.dependency-management' version("${dependencyManagementPluginVersion}")
+        id 'org.hidetake.swagger.generator' version("${orgHidetakeSwaggerGeneratorGradlePlugin}")
+        id 'org.openapi.generator' version("${openapiVersion}")
+    }
+}
+rootProject.name = 'service-dev-example'
+include 'api'
+include 'service'
+

@@ -1,0 +1,65 @@
+plugins {
+    id 'io.spring.dependency-management'
+    id 'org.hidetake.swagger.generator'
+}
+
+group = 'ru.testpro.report'
+version = '0.0.1-SNAPSHOT'
+
+// common parameters for subprojects
+ext {
+    apiYamlName = 'example.yaml'
+    mainPackage = 'dev.gen.example'
+    apiPackage = { String packageName -> "${ext.mainPackage}.${packageName}.api" }
+    modelPackage = { String packageName -> "${ext.mainPackage}.${packageName}.model" }
+    invokerPackage = { String packageName -> "${ext.mainPackage}.${packageName}" }
+    srcMain = 'src/main/java'
+}
+
+allprojects {
+    apply plugin: "io.spring.dependency-management"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency "org.openapitools:openapi-generator-gradle-plugin:${openapiVersion}"
+            dependency "org.openapitools:jackson-databind-nullable:${openapiNullableVersion}"
+
+            dependency("org.projectlombok:lombok:${lombokVersion}")
+            dependency("org.springframework:spring-context:${springVersion}")
+            dependency("org.springframework:spring-web:${springVersion}")
+            dependency("org.springframework.cloud:spring-cloud-starter:${springCloudVersion}")
+            dependency("org.springframework.cloud:spring-cloud-starter-openfeign:${springCloudVersion}")
+            dependency("io.github.openfeign:feign-okhttp:${feignHttpClient}")
+            dependency("io.github.openfeign:feign-httpclient:${feignHttpClient}")
+            dependency("javax.validation:validation-api:${validationApiVersion}")
+            dependency("org.mapstruct:mapstruct:${mapstructVersion}")
+            dependency("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+            dependency("com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}")
+            dependency("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+            dependency("io.swagger.core.v3:swagger-annotations:${swaggerAnnotationsVersion}")
+            dependency("io.swagger.codegen.v3:swagger-codegen-cli:${swaggerCodegenCliVersion}")
+            dependency("com.github.tomakehurst:wiremock-jre8-standalone:${wiremockVersion}")
+            dependency("org.apache.commons:commons-lang3:${commonsLang3Version}")
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
+
+        resolutionStrategy {
+            force("com.fasterxml.jackson:jackson-bom:${jacksonVersion}")
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    compileJava.options.encoding = 'UTF-8'
+    sourceCompatibility = '17'
+}

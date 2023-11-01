@@ -1,0 +1,41 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'org.openapi.generator'
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.openapitools:jackson-databind-nullable'
+    implementation "io.swagger.core.v3:swagger-annotations"
+    implementation "javax.validation:validation-api"
+}
+
+def buildGen = "$buildDir/generated".toString()
+
+tasks.create('mainApiGenerator', GenerateTask.class, {
+    group = "generate"
+    generatorName = "spring"
+    library = "spring-boot"
+    inputSpec = "$project.projectDir/$rootProject.ext.apiYamlName".toString()
+    outputDir = buildGen
+    apiPackage = rootProject.ext.apiPackage('main')
+    modelPackage = rootProject.ext.modelPackage('main')
+    invokerPackage = rootProject.ext.invokerPackage('main')
+    configOptions = [
+            interfaceOnly  : "true",
+            delegatePattern: "false",
+            dateLibrary    : "java8",
+            java8          : "true",
+            useTags        : "true",
+            sourceFolder   : rootProject.ext.srcMain,
+    ]
+    additionalProperties = [
+            javaxPackage: "javax"
+    ]
+})
+
+sourceSets.main.java.srcDir "$buildGen/$rootProject.ext.srcMain"
+bootJar.enabled = false
+jar.enabled = true

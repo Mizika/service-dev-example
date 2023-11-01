@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation project(':api')
+
+    // ** Spring & Spring Starter
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation('io.github.openfeign:feign-okhttp') {
+        exclude group: 'org.jetbrains', module: 'annotations'
+    }
+
+    // ** Other Library
+    implementation "io.swagger.core.v3:swagger-annotations"
+    implementation 'org.mapstruct:mapstruct'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor'
+
+    // ** Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'com.github.tomakehurst:wiremock-jre8-standalone'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.mapstruct:mapstruct'
+    testAnnotationProcessor 'org.mapstruct:mapstruct-processor'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+bootJar {
+    archiveVersion.set("")
+    archiveName(rootProject.name + ".jar")
+    launchScript()
+}
+
+jar {
+    enabled = false
+}
