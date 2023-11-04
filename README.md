@@ -7,11 +7,10 @@
 - `./gradlew :api:mainApiGenerator`
 
 ### Запрос GET:
-- `curl --location 'http://localhost:8080/exampleget?item=30'`
+- `curl --location 'http://localhost:8080/exampleget?item=10'`
 
 ### Запрос POST:
 - `curl --location 'http://localhost:8080/examplepost' \
-  --header 'accept: application/json' \
   --header 'Content-Type: application/json' \
   --data '{
   "message": "test",
